@@ -22,7 +22,7 @@ namespace ps {
 	struct c_event {
 		using args_t = std::tuple<>;
 	};
-	
+
 	template<> struct event_traits<a_event> {
 		using args_t = std::tuple<int, std::string>;
 	};
@@ -31,11 +31,11 @@ namespace ps {
 		using args_t = std::tuple<std::string, std::string>;
 	};
 
-	struct ab_events_dispatcher : public events_publisher<ab_events_dispatcher, a_event, b_event> {
+	struct ab_events_dispatcher : public events_publisher<a_event, b_event> {
 		int a_dispatch_counter{0};
 		int b_dispatch_counter{0};
 
-		using events_publisher<ab_events_dispatcher, a_event, b_event>::events_publisher;
+		using events_publisher<a_event, b_event>::events_publisher;
 	};
 
 	struct ab_events_consumer : public events_subscriber<ab_events_consumer, a_event, b_event> { // NOLINT
@@ -94,13 +94,13 @@ namespace ps {
 		b = "abc";
 	}
 
-	struct a_events_dispatcher : public events_publisher<a_events_dispatcher, a_event> {
+	struct a_events_dispatcher : public events_publisher<a_event> {
 		int a_dispatch_counter{0};
 
-		using events_publisher<a_events_dispatcher, a_event>::events_publisher;
+		using events_publisher<a_event>::events_publisher;
 	};
 
-	struct c_event_dispatcher : public events_publisher<c_event_dispatcher, c_event> {};
+	struct c_event_dispatcher : public events_publisher<c_event> {};
 
 	using ab_events_manager = events_manager<a_event, b_event>;
 
